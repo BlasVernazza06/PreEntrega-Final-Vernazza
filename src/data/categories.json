@@ -1,0 +1,33 @@
+[
+     {
+         "id": 1,
+         "imagen": "https://source.unsplash.com/400x300/?hotel",
+         "title": "Alojamientos",
+         "categoria": "Alojamientos"
+     },
+     {
+         "id": 2,
+         "imagen": "https://source.unsplash.com/400x300/?airplane",
+         "title": "Vuelos",
+         "categoria": "Vuelos"
+     },
+     {
+         "id": 3,
+         "imagen": "https://source.unsplash.com/400x300/?activities",
+         "title": "Actividades",
+         "categoria": "Actividades"
+     },
+     {
+         "id": 4,
+         "imagen": "https://source.unsplash.com/400x300/?car", 
+         "categoria": "Autos"
+     },
+     {
+         "id": 5,
+         "imagen": "https://source.unsplash.com/400x300/?travel-package",
+         "title": "Paquetes",
+         "categoria": "Paquetes"
+     }
+ ]
+
+  

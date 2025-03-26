@@ -1,0 +1,1 @@
+export const baseUrl = "https://aeroapp-4a278-default-rtdb.firebaseio.com/"
