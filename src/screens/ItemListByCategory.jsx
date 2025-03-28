@@ -4,6 +4,7 @@ import { useGetProductsByCategoryQuery } from "../services/shopService"
 // Corregir la importación de FlatList
 import { FlatList } from "react-native"
 import CardItem from "../components/CardItem"
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Ionicons } from "@expo/vector-icons"
 
@@ -21,11 +22,9 @@ const ItemListByCategory = ({ route, navigation }) => {
     navigation.goBack()
   }
 
-  console.log(categories)
-
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.HeaderProducts}>
         <Pressable onPress={handleNavigationBack} style={styles.goBackButton}>
           <Ionicons name="arrow-back" size={24} color="black" />
@@ -43,7 +42,7 @@ const ItemListByCategory = ({ route, navigation }) => {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

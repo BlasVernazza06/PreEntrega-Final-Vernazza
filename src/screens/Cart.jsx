@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, Text, View, Image } from "react-native"
+import { FlatList, Pressable, StyleSheet, Text, View, Image, SafeAreaView } from "react-native"
 
 import CartItem from "../components/CartItem"
 
@@ -21,11 +21,11 @@ const Cart = ({ navigation }) => {
 
 
   return (
-    <View style={styles.mainContainer}>
+    <SafeAreaView style={styles.mainContainer} edges={['top']}>
       {verifyCart() ? (
         <View style={styles.emptyContainer}>
           <View style={styles.emptyContent}>
-            <Image source={{ uri: "https://i.postimg.cc/90frkb8p/icons8-comprar-100.png" }} style={styles.emptyImage} />
+            <Image source={{ uri: "https://i.postimg.cc/90frkb8p/icons8-comprar-100.png", cache: 'force-cache' }} style={styles.emptyImage} />
             <View style={styles.emptyTextSec}>
               <Text style={styles.emptyTitle}>Su carrito se encuentra vacío</Text>
               <Text style={styles.emptySubtitle}>Agregue productos para comenzar a comprar</Text>
@@ -55,7 +55,7 @@ const Cart = ({ navigation }) => {
 
           <View style={styles.totalContainer}>
             <View style={styles.totalDetail}>
-              <Image source={{ uri: "https://i.postimg.cc/DzTndGvw/icons8-recibo-48.png" }} style={styles.totalImage} />
+              <Image source={{ uri: "https://i.postimg.cc/DzTndGvw/icons8-recibo-48.png", cache: 'force-cache' }} style={styles.totalImage} />
               <View style={styles.totalDetailText}>
                 <Text style={styles.subtotalText}>
                   Total: ${Number(total).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -72,7 +72,7 @@ const Cart = ({ navigation }) => {
           </View>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   )
 }
 

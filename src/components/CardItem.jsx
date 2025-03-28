@@ -10,9 +10,15 @@ const CardItem = ({ products, navigation, category}) => {
 
   const dispatch = useDispatch()
 
+  // Función de utilidad para convertir valores seguros a string
+  const safeToString = (value) => {
+    if (value === null || value === undefined) return '';
+    return String(value);
+  }
+
   const handleNavigate = () => {
-    dispatch(setIdSelected(products.title))
-    navigation.navigate("Detail" , {productId: products.id})
+    dispatch(setIdSelected(safeToString(products.title)))
+    navigation.navigate("Detail", {productId: safeToString(products.id)})
   }
 
   return (
@@ -30,20 +36,26 @@ const CardItem = ({ products, navigation, category}) => {
           </View>
         )}
         <View style={styles.infoProduct}>
-          <Text style={styles.title}>{products.nombre || 'Nombre no disponible'}</Text>
-          <Text style={styles.dateText}>
-            <Text style={{fontWeight: 'bold'}}>{products.desde || 'Desde no disponible'}</Text>
-            {' al '}
-            <Text style={{fontWeight: 'bold'}}>{products.hasta || 'Hasta no disponible'}</Text>
+          <Text style={styles.title}>
+            {safeToString(products.nombre) || 'Nombre no disponible'}
           </Text>
-          {category.categoria !== "Actividades" && category.categoria !== "Autos" && (
+          <Text style={styles.dateText}>
+            <Text style={{fontWeight: 'bold'}}>
+              {safeToString(products.desde) || 'Desde no disponible'}
+            </Text>
+            {' al '}
+            <Text style={{fontWeight: 'bold'}}>
+              {safeToString(products.hasta) || 'Hasta no disponible'}
+            </Text>
+          </Text>
+          {category && category.categoria !== "Actividades" && category.categoria !== "Autos" && (
             <View style={styles.subTitle}> 
-              <Text>{products.origen || 'Origen no disponible'}</Text>
+              <Text>{safeToString(products.origen) || 'Origen no disponible'}</Text>
               <Image
                 source={require('../../assets/itemProducts/Flechas-Cards.svg')}
                 style={styles.arrowImage} 
               />
-              <Text>{products.destino || 'Destino no disponible'}</Text>
+              <Text>{safeToString(products.destino) || 'Destino no disponible'}</Text>
             </View>
           )}
           <View style={styles.ButtonSec}>

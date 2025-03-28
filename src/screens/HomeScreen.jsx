@@ -5,6 +5,7 @@ import { View, StyleSheet, FlatList, Dimensions, Text } from "react-native"
 import { useGetCategoriesQuery } from "../services/shopService"
 import Header from "../components/Header"
 import Categories from "../components/Categories"
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const screenWidth = Dimensions.get("window").width
 
@@ -29,7 +30,7 @@ const HomePage = ({ navigation }) => {
   }
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
       {isLoading ? (
         null
       ) : (
@@ -62,7 +63,7 @@ const HomePage = ({ navigation }) => {
           </View>
         </>
       )}
-    </>
+    </SafeAreaView>
   )
 }
 

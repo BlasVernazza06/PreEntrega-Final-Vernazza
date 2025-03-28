@@ -1,11 +1,11 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View, SafeAreaView } from "react-native";
 import React from "react";
 import CartData from "../data/cart.jsx";
 import CartItem from "../components/CartItem";
 
 const FavsPage = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Favoritos</Text>
       </View>
@@ -16,7 +16,7 @@ const FavsPage = () => {
         renderItem={({ item }) => <CartItem cartItem={item} />}
         contentContainerStyle={styles.favsList}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import * as ImagePicker from 'expo-image-picker';
 
 import { colors } from "../global/colors";
-import AddButton from '../components/AddButton';
 import { usePostProfileImageMutation } from '../services/shopService';
 import { useDispatch, useSelector } from 'react-redux';
 import {setCameraImage} from '../features/user/userSlice'
@@ -65,42 +65,53 @@ const ImageSelector = ({navigation}) => {
      
      
      return (
-     <View style={styles.container}>
-          {image ? 
-          (
-          <>
-          <Image 
-               source={{uri: image}} 
-               style={styles.image}
-               />
-          <AddButton 
-               title="Take another photo"
-               onPress={pickImage}
-               />
-          <AddButton 
-               title='Confirm photo'
-               onPress={confirmImage}
-          />
-          </>
-          ) 
-          : 
-          (
-          <>
-               <View style={styles.noPhotoContainer}>
-               <Text> No photo to show... </Text>
-               </View>
-               <AddButton 
-               title="Take a phhoto"
-               onPress={pickImage}
-               />
-          </>
-          )}
-     {/*       
-     Imagen cargada
+     <SafeAreaView style={styles.container} edges={['top']}>
+          <View style={styles.header}>
+               <Text style={styles.title}>Foto de Perfil</Text>
+               <Text style={styles.subtitle}>Toma una foto para tu perfil</Text>
+          </View>
 
-     Sin Imagen 
-     */}
-     </View>
+          <View style={styles.imageContainer}>
+               {image ? 
+               (
+                    <>
+                    <Image 
+                         source={{uri: image}} 
+                         style={styles.image}
+                         resizeMode='cover'
+                    />
+                    <View style={styles.buttonContainer}>
+                         <TouchableOpacity 
+                              style={[styles.button, styles.retakeButton]}
+                              onPress={pickImage}
+                         >
+                              <Text style={styles.buttonText}>Tomar otra foto</Text>
+                         </TouchableOpacity>
+                         <TouchableOpacity 
+                              style={[styles.button, styles.confirmButton]}
+                              onPress={confirmImage}
+                         >
+                              <Text style={styles.buttonText}>Confirmar foto</Text>
+                         </TouchableOpacity>
+                    </View>
+                    </>
+               ) 
+               : 
+               (
+                    <>
+                         <View style={styles.noPhotoContainer}>
+                              <Text style={styles.noPhotoText}>No hay foto para mostrar...</Text>
+                         </View>
+                         <TouchableOpacity 
+                              style={[styles.button, styles.takePhotoButton]}
+                              onPress={pickImage}
+                         >
+                              <Text style={styles.buttonText}>Tomar foto</Text>
+                         </TouchableOpacity>
+                    </>
+               )}
+          </View>
+     </SafeAreaView>
      )
 }
 
@@ -109,22 +120,77 @@ export default ImageSelector
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.white,
+  },
+  header: {
+    backgroundColor: colors.primary,
+    padding: 20,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.white,
+    marginBottom: 5,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: colors.white,
+    opacity: 0.8,
+  },
+  imageContainer: {
+    flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
+    padding: 20,
     gap: 20,
-    marginTop: 20,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
+    borderRadius: 15,
+    borderWidth: 3,
+    borderColor: colors.primary,
   },
   noPhotoContainer: {
-    width: 200,
-    height: 200,
-    borderWidth: 2,
-    borderColor: colors.lightBlack,
-    padding: 10,
+    width: 250,
+    height: 250,
+    borderWidth: 3,
+    borderColor: colors.primary,
+    borderRadius: 15,
+    padding: 20,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: colors.lightGray,
+  },
+  noPhotoText: {
+    fontSize: 16,
+    color: colors.lightBlack,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    width: '100%',
+    gap: 15,
+  },
+  button: {
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '100%',
+  },
+  takePhotoButton: {
+    backgroundColor: colors.primary,
+  },
+  retakeButton: {
+    backgroundColor: colors.lightBlack,
+  },
+  confirmButton: {
+    backgroundColor: colors.primary,
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

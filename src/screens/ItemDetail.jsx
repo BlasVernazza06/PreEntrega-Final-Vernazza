@@ -1,5 +1,6 @@
-import { Button, Image, StyleSheet, Text, View, Pressable, Alert, Modal } from 'react-native'
+import { Image, StyleSheet, Text, View, Pressable, Modal } from 'react-native'
 import React, { useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useGetProductbyIdQuery } from "../services/shopService";
 import { useDispatch } from "react-redux";
@@ -14,14 +15,30 @@ const ItemDetail = ({ route, navigation }) => {
 
   const { productId: idSelected } = route.params
   const { data: product } = useGetProductbyIdQuery(idSelected)
+  console.log('Datos del producto:', product); // Para ver qué datos llegan
+
+  const formatPrice = (price) => {
+    if (!price) return "0.00";
+    return Number(price).toLocaleString("es-ES", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  };
 
   const handleAddCart = () => {
-    dispatch(addCartItem({ ...product, quantity: 1 }))
-    setModalVisible(true); // Mostrar el modal al agregar
+    if (product) {
+      const formattedProduct = {
+        ...product,
+        precio: Number(product.precio), // Asegurarse de que precio sea número
+        quantity: 1
+      };
+      dispatch(addCartItem(formattedProduct));
+      setModalVisible(true);
+    }
   }
 
   return (
-    <View>
+    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
       {product ? (
         <>
           <View style={styles.HeaderProducts}>
@@ -41,7 +58,9 @@ const ItemDetail = ({ route, navigation }) => {
               <View style={styles.priceSec}>
                 <View style={styles.priceSecText}>
                   <Text>Precio final</Text>
-                  <Text style={styles.price}>${Number(product.precio).toLocaleString("es-ES", {minimumFractionDigits: 2, maximumFractionDigits: 2})}</Text>
+                  <Text style={styles.price}>
+                    ${formatPrice(product.precio)}
+                  </Text>
                   <Text>Incluyen impuestos, tasas y cargos </Text>
                 </View>
                 <Pressable style={styles.addButton} onPress={handleAddCart}>
@@ -70,7 +89,7 @@ const ItemDetail = ({ route, navigation }) => {
 
         </>
       ) : null}
-    </View>
+    </SafeAreaView>
   );
 }
 
