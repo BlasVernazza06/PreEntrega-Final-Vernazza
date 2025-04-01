@@ -5,7 +5,7 @@
 </p>
 
 
-✈️ **AeroViajes** 
+✈️ # **AeroViajes** 
 
 Descripción 
 
@@ -13,7 +13,7 @@ Nuestra app de viajes ofrece a los usuarios explorar y contratar experiencias de
 
 Tecnologías y Características Clave 
 
-🔐 **Sistema de Autenticación de Usuario**
+🔐 # **Sistema de Autenticación de Usuario**
 
 Desplegamos un sistema de autenticación que habilita el inicio de sesión y el registro de usuarios nuevos. Esto certifica que cada usuario pueda entrar a sus propios datos y ajustes en la app. 
 
