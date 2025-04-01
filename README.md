@@ -59,12 +59,4 @@ npm install
 npx expo start
 ```
 
-# ✨ Contribuciones
-
-Si quieres colaborar en este proyecto, siéntete libre de hacer un fork y mandar un pull request con tus mejoras.
-
-# 🌟 Agradecimientos
-
-A todos los desarrolladores y colaboradores que hicieron posible esta aplicación. ¡Gracias por tu apoyo!
-
 👉 **Desarrollado con React Native y gran pasión por los viajes.**
