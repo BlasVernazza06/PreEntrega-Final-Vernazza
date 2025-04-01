@@ -1,60 +1,70 @@
-✈️ App de Viajes
+![Imagen de WhatsApp 2025-04-01 a las 15 57 07_907971ed](https://github.com/user-attachments/assets/aadd31ef-77ae-48bc-8812-8d5c3b25ed8a)
 
-Descripción
 
-Nuestra aplicación de viajes permite a los usuarios explorar y adquirir experiencias de viaje de manera sencilla y organizada. La app cuenta con una interfaz intuitiva que facilita la navegación entre las distintas secciones, brindando una experiencia fluida y optimizada para dispositivos móviles.
 
-Tecnologías y Características Principales
 
-🔐 Sistema de Verificación de Usuario
 
-Implementamos un sistema de autenticación que permite el inicio de sesión y el registro de nuevos usuarios. Esto garantiza que cada usuario tenga acceso a sus propios datos y configuraciones dentro de la app.
 
-🛏️ Navegación entre Screens
 
-Utilizamos React Navigation para gestionar la navegación entre las distintas pantallas de la aplicación. Contamos con un AuthStack para el acceso de usuario y un AppStack para la navegación dentro de la plataforma.
 
-💡 Manejo de Estados y Condicionales
 
-La aplicación utiliza Context API para gestionar el estado global, permitiendo el control del usuario autenticado y la actualización de la interfaz en tiempo real. Además, usamos condicionales para renderizar la pantalla correspondiente según el estado del usuario.
+✈️ App de Viajes 
 
-📂 Base de Datos con Firebase
+Descripción 
 
-La app se conecta con Firebase para almacenar información de los usuarios, como sus datos de perfil, historial de compras y preferencias de viaje. Esto garantiza un acceso seguro y escalable a la información.
+Nuestra app de viajes ofrece a los usuarios explorar y contratar experiencias de viaje de manera fácil y organizada. La app presume de una interfaz intuitiva que simplifica la navegación entre las distintas secciones, ofreciendo una experiencia ágil y optimizada para dispositivos móviles. 
 
-🛠️ Componentes Reutilizables
+Tecnologías y Características Clave 
 
-Desarrollamos componentes reutilizables para mejorar la modularidad y mantener un código limpio y mantenible. Esto nos permite agilizar el desarrollo y garantizar una experiencia de usuario uniforme.
+🔐 Sistema de Autenticación de Usuario 
 
-📅 Persistencia de Datos (Expo SQLite)
+Desplegamos un sistema de autenticación que habilita el inicio de sesión y el registro de usuarios nuevos. Esto certifica que cada usuario pueda entrar a sus propios datos y ajustes en la app. 
 
-Implementamos Expo SQLite para la persistencia de datos locales, asegurando que los usuarios puedan acceder a información relevante incluso sin conexión a Internet.
+🛏️ Navegación entre Pantallas 
 
-📷 Features del Móvil (Cámara y Foto de Perfil)
+Usamos React Navigation para manejar la navegación entre las distintas pantallas de la aplicación. Tenemos un AuthStack para el acceso del usuario y un AppStack para la navegación en la plataforma. 
 
-Nuestra app permite a los usuarios tomar una foto desde la cámara del dispositivo y establecerla como foto de perfil, mejorando la personalización y experiencia del usuario.
+💡 Gestión de Estados y Condicionales 
 
-📚 Instalación y Uso
+La aplicación emplea Context API para manejar el estado global, permitiendo el control del usuario autenticado y la actualización de la interfaz en tiempo real. Además, usamos condicionales para mostrar la pantalla que corresponda al estado del usuario. 
 
-Clona este repositorio:
+📂 Base de Datos con Firebase 
 
-git clone https://github.com/usuario/app-viajes.git
+La app conecta con Firebase para guardar información de los usuarios, como sus datos de perfil, historial de compras y preferencias de viaje. Esto asegura un acceso seguro y escalable a la información. 
 
-Instala las dependencias:
+🛠️ Componentes Reutilizables 
 
-cd app-viajes
-npm install
+Creamos componentes reutilizables para mejorar la modularidad y mantener un código limpio y mantenible. Esto nos ayuda a acelerar el desarrollo y asegurar una experiencia de usuario uniforme. 
 
-Inicia la aplicación en Expo:
+📅 Persistencia de Datos (Expo SQLite) 
 
-npx expo start
+Implementamos Expo SQLite para la persistencia de datos locales, asegurando que los usuarios puedan entrar a información importante aun sin conexión a Internet. 
 
-✨ Contribuciones
+📷 Funciones del Móvil (Cámara y Foto de Perfil) 
 
-Si deseas contribuir a este proyecto, no dudes en hacer un fork y enviar un pull request con tus mejoras.
+Nuestra app permite a los usuarios sacar una foto desde la cámara del dispositivo y ponerla como foto de perfil, mejorando la personalización y experiencia del usuario. 
 
-🌟 Agradecimientos
+📚 Instalación y Uso 
 
-A todos los desarrolladores y colaboradores que han hecho posible esta aplicación. ¡Gracias por tu apoyo!
+Clona este repositorio: 
 
-👉 Desarrollado con React Native y mucho entusiasmo por los viajes.
+git clone https://github.com/BlasVernazza06/PreEntrega-Final-Vernazza. git 
+
+Instala las dependencias: 
+
+cd PreEntrega-Final-Vernazza 
+npm install 
+
+Inicia la aplicación en Expo: 
+
+npx expo start 
+
+✨ Contribuciones 
+
+Si quieres colaborar en este proyecto, siéntete libre de hacer un fork y mandar un pull request con tus mejoras. 
+
+🌟 Agradecimientos 
+
+A todos los desarrolladores y colaboradores que hicieron posible esta aplicación. ¡Gracias por tu apoyo! 
+
+👉 Desarrollado con React Native y gran pasión por los viajes.
