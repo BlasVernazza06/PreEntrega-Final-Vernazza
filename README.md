@@ -23,7 +23,7 @@ Usamos **React Navigation** para manejar la navegación entre las distintas pant
 
 # 💡 Gestión de Estados y Condicionales
 
-La aplicación emplea Redux Toolkit para manejar el estado global, permitiendo el control del usuario autenticado y la actualización de la interfaz en tiempo real. Además, usamos condicionales para mostrar la pantalla que corresponda al estado del usuario.
+La aplicación emplea **Redux Toolkit** para manejar el estado global, permitiendo el control del usuario autenticado y la actualización de la interfaz en tiempo real. Además, usamos condicionales para mostrar la pantalla que corresponda al estado del usuario.
 
 # 📂 Base de Datos con Firebase
 
