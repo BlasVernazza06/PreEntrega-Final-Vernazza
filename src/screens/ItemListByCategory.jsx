@@ -10,14 +10,17 @@ import { Ionicons } from "@expo/vector-icons"
 
 
 const ItemListByCategory = ({ route, navigation }) => {
+  // Se obtiene la categoria de la base de datos.
   const { categories } = route.params
-
+  
+  // Se obtiene los productos de la base de datos.
   const {
     data: productsByCategory,
     error,
     isLoading,
   } = useGetProductsByCategoryQuery(categories.categoria)
 
+  // Se obtiene la función para navegar hacia atras.
   const handleNavigationBack = () => {
     navigation.goBack()
   }
@@ -34,7 +37,7 @@ const ItemListByCategory = ({ route, navigation }) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={productsByCategory || []}
-        keyExtractor={(item, index) => (item.id ? item.id.toString() : index.toString())}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => <CardItem category={categories} products={item} navigation={navigation} />}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>

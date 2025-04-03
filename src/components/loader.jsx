@@ -50,20 +50,24 @@ export default function Loader() {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["rgba(245, 211, 166, 0.6)", "rgba(243, 216, 186, 0.4)", "rgba(248, 216, 157, 0)"]}
-        start={{ x: 0.5, y: -0.2 }}
-        end={{ x: 0.5, y: 2 }}
-        style={styles.background}
+        colors={[
+          "rgba(245, 211, 166, 0.6)",  // Naranja claro con transparencia
+          "rgba(243, 216, 186, 0.4)",  // Naranja medio con transparencia
+          "rgba(248, 216, 157, 0)"   // Naranja más oscuro con transparencia
+        ]}
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
       />
       <View style={styles.loadMessage}>
         <Animated.Text
-          style={{
-            color: colors.orangeLogo || 'orange', // Verifica que sea un string
-            fontSize: 34,
-            fontWeight: "bold",
-            transform: [{ rotateY: rotateInterpolate }],
-            opacity: fadeAnim, // Debe ser un Animated.Value
-          }}
+          style={[
+            styles.loadingText,
+            {
+              transform: [{ rotateY: rotateInterpolate }],
+              opacity: fadeAnim,
+            }
+          ]}
         >
           AeroViajes
         </Animated.Text>
@@ -78,19 +82,26 @@ const styles = StyleSheet.create({
     position: 'relative',
     backgroundColor: 'white',
   },
-  background: {
+  gradient: {
     position: 'absolute',
-    top: 0,
     left: 0,
     right: 0,
+    top: 0,
     bottom: 0,
-    zIndex: -2,
+    zIndex: 1,
   },
   loadMessage: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 60,
-    gap: 10,
+    zIndex: 2,
   },
+  loadingText: {
+    color: colors.orangeLogo,
+    fontSize: 34,
+    fontWeight: "bold",
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  }
 });

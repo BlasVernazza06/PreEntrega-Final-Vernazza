@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Se crea un slice para el carrito, para asi, agregar un producto al carrito, eliminar un producto del carrito y obtener el carrito.
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {

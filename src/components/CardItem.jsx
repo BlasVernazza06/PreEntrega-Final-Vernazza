@@ -7,18 +7,18 @@ import { setIdSelected } from '../features/shop/shopSlice';
 
 const CardItem = ({ products, navigation, category}) => {
   const [imageError, setImageError] = useState(false);
-
   const dispatch = useDispatch()
 
-  // Función de utilidad para convertir valores seguros a string
-  const safeToString = (value) => {
-    if (value === null || value === undefined) return '';
-    return String(value);
-  }
+  // Convertir los valores numéricos a string al inicio del componente
+  const safeProducts = {
+    ...products,
+    precio: String(products.precio),
+    stock: String(products.stock)
+  };
 
   const handleNavigate = () => {
-    dispatch(setIdSelected(safeToString(products.title)))
-    navigation.navigate("Detail", {productId: safeToString(products.id)})
+    dispatch(setIdSelected(safeProducts.title))
+    navigation.navigate("Detail", {productId: safeProducts.id})
   }
 
   return (
@@ -26,7 +26,7 @@ const CardItem = ({ products, navigation, category}) => {
       <View style={styles.container}>
         {!imageError ? (
           <Image
-            source={products.imagen}
+            source={safeProducts.imagen}
             style={styles.image}
             onError={() => setImageError(true)}
           />
@@ -36,26 +36,24 @@ const CardItem = ({ products, navigation, category}) => {
           </View>
         )}
         <View style={styles.infoProduct}>
-          <Text style={styles.title}>
-            {safeToString(products.nombre) || 'Nombre no disponible'}
+          <Text style={styles.title} onLayout={() => {
+            
+          }}>
+            {safeProducts.nombre}
           </Text>
           <Text style={styles.dateText}>
-            <Text style={{fontWeight: 'bold'}}>
-              {safeToString(products.desde) || 'Desde no disponible'}
-            </Text>
+            {safeProducts.desde}
             {' al '}
-            <Text style={{fontWeight: 'bold'}}>
-              {safeToString(products.hasta) || 'Hasta no disponible'}
-            </Text>
+            {safeProducts.hasta}
           </Text>
           {category && category.categoria !== "Actividades" && category.categoria !== "Autos" && (
             <View style={styles.subTitle}> 
-              <Text>{safeToString(products.origen) || 'Origen no disponible'}</Text>
+              <Text>{safeProducts.origen}</Text>
               <Image
                 source={require('../../assets/itemProducts/Flechas-Cards.svg')}
                 style={styles.arrowImage} 
               />
-              <Text>{safeToString(products.destino) || 'Destino no disponible'}</Text>
+              <Text>{safeProducts.destino}</Text>
             </View>
           )}
           <View style={styles.ButtonSec}>
@@ -69,6 +67,10 @@ const CardItem = ({ products, navigation, category}) => {
               <Text style={styles.ButtonTextCart}>Al Carrito</Text>
             </Pressable>
           </View>
+          <Text style={styles.price}>
+            ${Number(safeProducts.precio).toFixed(2)}
+          </Text>
+          <Text>{safeProducts.id}</Text>
         </View>
       </View>
     </Pressable>
@@ -156,7 +158,10 @@ const styles = StyleSheet.create({
   },
   ButtonTextCart:{
     color:'white'
-  }
+  },
+  price: {
+    marginTop: 5,
+  },
 });
 
 export default CardItem;

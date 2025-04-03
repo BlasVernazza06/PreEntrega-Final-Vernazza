@@ -12,11 +12,6 @@ const Categories = ({ categories, navigation }) => {
     navigation.navigate("ItemListByCategory", { categories });
   }
 
-  const getSafeValue = (value, defaultValue = '') => {
-    return value !== null && value !== undefined ? String(value) : defaultValue;
-  };
-
-  console.log('Datos de categoría:', categories);
 
   return (
     <View style={styles.container}>
@@ -28,23 +23,21 @@ const Categories = ({ categories, navigation }) => {
           {!imageError ? (
             <Image 
               source={{ 
-                uri: getSafeValue(categories.imagen),
+                uri: categories.imagen,
                 cache: 'force-cache'
               }} 
               style={styles.image}
               resizeMode="contain"
-              onError={(error) => {
-                console.log('Error de imagen:', error);
+              onError={() => {
                 setImageError(true);
               }}
-              onLoad={() => console.log('Imagen cargada:', categories.imagen)}
             />
           ) : (
             <View style={styles.errorImageContainer}>
               <Text style={styles.errorText}>Error al cargar la imagen</Text>
             </View>
           )}
-          <Text style={styles.text}>{getSafeValue(categories.categoria)}</Text>
+          <Text style={styles.text}>{categories.categoria}</Text>
         </View>
       </Pressable>
     </View>

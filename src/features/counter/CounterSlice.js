@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Se crea un slice para el contador, para asi, incrementar, decrementar, incrementar por una cantidad y resetear el contador.
 export const counterSlice = createSlice({
     name: "counter", 
     initialState: {

@@ -1,6 +1,6 @@
 "use client"
 
-import { StyleSheet, View, Dimensions, Text } from "react-native"
+import { StyleSheet, View, Dimensions, Text, Image } from "react-native"
 import { useEffect, useRef } from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { FontAwesome5 } from "@expo/vector-icons"
@@ -18,33 +18,38 @@ import Animated, {
 
 import HomeStackNavigator from "./HomeStackNavigator"
 import CartStackNavigator from "./CartStackNavigator"
-import LikesStackNavigator from "./LikesStackNavigator"
+import ForumStackNavigator from "./ForumStackNavigator"
 import AccountStackNavigator from "./AccountStackNavigator"
+import SupportStackNavigator from "./SupportStackNavigator"
 
 const Tab = createBottomTabNavigator()
 const { width } = Dimensions.get("window")
 
 const BottomTab = () => {
+  // Se obtiene el ancho de la pantalla.
   const tabWidth = width / 5 // 5 tabs
+  // Se crea un estado para el valor de la animación.
   const animationValues = useRef(
     Array(5)
       .fill(null)
       .map(() => useSharedValue(1)),
   ).current
+  // Se crea un estado para el valor de la animación.
   const translateYValues = useRef(
     Array(5)
       .fill(null)
       .map(() => useSharedValue(0)),
   ).current
+  // Se crea un estado para el valor de la animación.
   const opacityValues = useRef(
     Array(5)
       .fill(null)
       .map(() => useSharedValue(1)),
   ).current
 
-  // Custom tab bar component
+    // Componente de la barra de navegación.
   const CustomTabBar = ({ state, descriptors, navigation }) => {
-    // Update animation values when tab changes
+    // Se actualiza el valor de la animación cuando cambia el tab.
     useEffect(() => {
       state.routes.forEach((_, index) => {
         const isActive = state.index === index
@@ -69,12 +74,13 @@ const BottomTab = () => {
             const { options } = descriptors[route.key]
             const isFocused = state.index === index
 
-            // Create animated styles for each tab icon
+            // Se crea un estilo animado para cada icono de tab.
             const iconAnimatedStyle = useAnimatedStyle(() => ({
               transform: [{ scale: animationValues[index].value }],
               opacity: opacityValues[index].value,
             }))
 
+            // Se obtiene la función para navegar a la pantalla.
             const onPress = () => {
               const event = navigation.emit({
                 type: "tabPress",
@@ -82,6 +88,7 @@ const BottomTab = () => {
                 canPreventDefault: true,
               })
 
+              // Se navega a la pantalla.
               if (!isFocused && !event.defaultPrevented) {
                 navigation.navigate(route.name)
               }
@@ -121,14 +128,17 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Favoritos"
-        component={LikesStackNavigator}
+        name="Foro de Viajes"
+        component={ForumStackNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.iconTab}>
-              <Feather name="heart" size={24} color={focused ? colors.orangeLogo : "black"} />
-              <Text style={[styles.tabText,{ color: focused ? colors.orangeLogo : "black" }]} 
-              numberOfLines={1}>Favoritos</Text>
+              <Image 
+                source={require('../../assets/Images/foro.png')} 
+                style={[styles.iconTab, { tintColor: focused ? colors.orangeLogo : "black" }]} 
+              />
+              <Text style={[styles.tabText, { color: focused ? colors.orangeLogo : "black", textAlign: 'center' }]} 
+              numberOfLines={2}>Foro de Viajes</Text>
             </View>
           ),
         }}
@@ -146,13 +156,13 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Ofertas"
-        component={CartStackNavigator}
+        name="Soporte"
+        component={SupportStackNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.iconTab}>
-              <FontAwesome5 name="fire" size={24} color={focused ? colors.orangeLogo : "black"} />
-              <Text style={[styles.tabText,{ color: focused ? colors.orangeLogo : "black" }]}  numberOfLines={1}>Ofertas</Text>
+              <FontAwesome5 name="headset" size={24} color={focused ? colors.orangeLogo : "black"} />
+              <Text style={[styles.tabText,{ color: focused ? colors.orangeLogo : "black" }]}  numberOfLines={1}>Soporte</Text>
             </View>
           ),
         }}
@@ -216,7 +226,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tabText: {
-    fontSize: 12,
+    fontSize: 9,
     fontWeight: 'bold',
   }
 })

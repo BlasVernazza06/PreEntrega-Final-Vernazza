@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView } from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import BottomTabNavigator from "../Navigation/BottomTabNavigator";
 
@@ -10,8 +10,30 @@ import { setUser } from "../features/user/userSlice.js";
 import { useDB } from "../hooks/useDB.js";
 
 const Navigator = () => {
-     //const [user, setUser] = useState(null)
+     const dispatch = useDispatch()
      const {user} = useSelector(state => state.auth.value)
+     const {getSession} = useDB()
+
+     // obtener la session
+     useEffect(()=>{
+     (async ()=> {
+     try{
+          const response = await getSession()
+          if(response) {
+          const user = response;
+          dispatch(
+               setUser({
+               email: user.email,
+               localId: user.localId,
+               idToken: user.token
+          }))
+          }
+     } catch (err){
+          console.log(err)
+     }
+     })()
+     },)
+
      return (
      
            <NavigationContainer>

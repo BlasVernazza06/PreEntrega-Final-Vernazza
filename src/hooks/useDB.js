@@ -1,49 +1,54 @@
 import * as SQLite from 'expo-sqlite';
- export const useDB = () => {
+
+// Se crea un hook para la base de datos local de la aplicación.
+
+// Se crean funciones para abrir la base de datos, insertar datos, obtener datos y cerrar la base de datos.
+export const useDB = () => {
    const openDatabase = async () => {
-     const db = await SQLite.openDatabaseSync("sessions.db")
+     const db = await SQLite.openDatabaseSync("sessions.db");
+     // Crear la tabla inmediatamente después de abrir la base de datos
+     await db.execAsync(
+       'CREATE TABLE IF NOT EXISTS sessions (localId TEXT PRIMARY KEY NOT NULL, email TEXT NOT NULL, token TEXT NOT NULL);'
+     );
      return db;
    };
 
-   const initDB = async () => {
-     const db = await openDatabase();
-     console.log(db)
-     const sql = `CREATE TABLE IF NOT EXISTS sessions (localId TEXT PRIMARY KEY NOT NULL, email TEXT NOT NULL, token TEXT NOT NULL);`;
-     const res = await db.execAsync(sql)
-     console.log(res)
-     return res;
+   const insertSession = async ({ email, localId, token }) => {
+     try {
+       const db = await openDatabase();
+       return await db.runAsync(
+         'INSERT OR REPLACE INTO sessions (localId, email, token) VALUES (?, ?, ?);',
+         [localId, email, token]
+       );
+     } catch (error) {
+       console.error('Error en insertSession:', error);
+       throw error;
+     }
    };
 
-  const insertSession = async ({ email, localId, token }) => {
-    const db = await openDatabase();
-     const sql = `INSERT INTO sessions (localId, email, token) VALUES (?, ?, ?);`;
-     const args = [localId, email, token];
-    const res = await db.runAsync(sql, args);
-    console.log(res);
-     return res;
-  };
+    const getSession = async () => {
+      try {
+        const db = await openDatabase();
+        return await db.getFirstAsync('SELECT * FROM sessions');
+      } catch (error) {
+        console.error('Error en getSession:', error);
+        return null;
+      }
+    };
 
-   const getSession = async () => {
-    const db = await  openDatabase();
-    const sql = `SELECT * FROM sessions`
-    const firstRow = await db.getFirstAsync(sql);
-    console.log(firstRow)
-    return firstRow;
-  };
+    const closeSession = async () => {
+      try {
+        const db = await openDatabase();
+        await db.execAsync('DELETE FROM sessions');
+      } catch (error) {
+        console.error('Error al cerrar la sesión:', error);
+        throw error;
+      }
+    };
 
-  const truncateSessionTable = async () => {
-    const db = await openDatabase()
-    const sql = `DELETE FROM sessions`;
-     const args = [];
-     const res = await db.execAsync(sql);
-    console.log(res)
-    return res;
-  };
-
-   return {
-    initDB,
-    insertSession,
-    getSession,
-    truncateSessionTable,
-  };
+    return {
+      insertSession,
+      getSession,
+      closeSession,
+    };
 };

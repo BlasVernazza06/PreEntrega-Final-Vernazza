@@ -1,5 +1,6 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
+// Se crea un slice para la tienda, para asi, establecer la categoria y el item seleccionado.
 export const shopSlice = createSlice({
     name: "shop",
     initialState: {

@@ -9,12 +9,21 @@ import { colors } from "../global/colors.jsx"
 
 const Cart = ({ navigation }) => {
   const {items: CartData, total} = useSelector((state)=> state.cart.value)
+  const {localId} = useSelector(state => state.auth.value)
   const [triggerPostOrder, result] = usePostOrderMutation()
 
+  // Se obtiene la función para confirmar la orden.
   const onConfirmOrder = () => {
-    triggerPostOrder({ items: CartData, user: "Luka", total })
+    triggerPostOrder({ 
+      order: {
+        items: CartData,
+        total: total,
+      },
+      userId: localId
+    })
   }
 
+  // Se verifica si el carrito esta vacio.
   const verifyCart = () => {
     return CartData.length === 0
   }

@@ -10,26 +10,30 @@ import { Ionicons } from "@expo/vector-icons"
 import { colors } from '../global/colors';
 
 const ItemDetail = ({ route, navigation }) => {
+  // Se crea un estado para el modal.
   const [modalVisible, setModalVisible] = useState(false);
+
+  // Se obtiene el dispatch.
   const dispatch = useDispatch();
 
+  // Se obtiene el id del producto.
   const { productId: idSelected } = route.params
-  const { data: product } = useGetProductbyIdQuery(idSelected)
-  console.log('Datos del producto:', product); // Para ver qué datos llegan
 
+  // Se obtiene el producto de la base de datos.
+  const { data: product } = useGetProductbyIdQuery(idSelected)
+
+  // Se formatea el precio.
   const formatPrice = (price) => {
     if (!price) return "0.00";
-    return Number(price).toLocaleString("es-ES", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+    return Number(price).toFixed(2);
   };
 
+  // Se obtiene la función para agregar el producto al carrito.
   const handleAddCart = () => {
     if (product) {
       const formattedProduct = {
         ...product,
-        precio: Number(product.precio), // Asegurarse de que precio sea número
+        precio: Number(product.precio), // Esto está bien porque es para el cálculo
         quantity: 1
       };
       dispatch(addCartItem(formattedProduct));
@@ -59,7 +63,7 @@ const ItemDetail = ({ route, navigation }) => {
                 <View style={styles.priceSecText}>
                   <Text>Precio final</Text>
                   <Text style={styles.price}>
-                    ${formatPrice(product.precio)}
+                    ${String(formatPrice(product.precio))}
                   </Text>
                   <Text>Incluyen impuestos, tasas y cargos </Text>
                 </View>

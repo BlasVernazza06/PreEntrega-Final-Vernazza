@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { View, StyleSheet, FlatList, Dimensions, Text } from "react-native"
 import { useGetCategoriesQuery } from "../services/shopService"
@@ -10,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const screenWidth = Dimensions.get("window").width
 
 const HomePage = ({ navigation }) => {
+  // Se obtiene las categorias de la base de datos.
   const { data: categories, error, isLoading } = useGetCategoriesQuery()
 
   // Función para determinar el estilo de cada fila basado en su índice

@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment, reset, incrementByAmount } from "../features/counter/CounterSlice";
 
 const Counter = () => {
+  // Se obtiene el valor del contador.
   const count = useSelector(state => state.counter.value)
-  const dispatch = useDispatch()
-  const [inputToAdd, setInputToAdd] = useState(null);
-  //let count = 0;
 
-  console.log(count);
+  // Se obtiene la función para cambiar el valor del contador.
+  const dispatch = useDispatch()
+
+  // Se crea un estado para el valor a aumentar.
+  const [inputToAdd, setInputToAdd] = useState(null);
 
   return (
     <View style={styles.container}>

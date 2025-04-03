@@ -29,11 +29,11 @@ const CartItem = ({ cartItem }) => {
 
       <View style={styles.textContainer}>
         <Text style={styles.text}>
-          {cartItem.nombre} ({cartItem.quantity})
+          {cartItem.nombre} ({String(cartItem.quantity)})
         </Text>
         <Text style={styles.text2}>{cartItem.destino}</Text>
         <Text style={styles.textPrecio}>
-          ${Number(cartItem.precio).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          ${Number(cartItem.precio).toFixed(2)}
         </Text>
       </View>
     </View>

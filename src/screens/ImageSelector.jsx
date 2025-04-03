@@ -1,196 +1,249 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Platform, StatusBar, Pressable } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-import * as ImagePicker from 'expo-image-picker';
-
-import { colors } from "../global/colors";
-import { usePostProfileImageMutation } from '../services/shopService';
-import { useDispatch, useSelector } from 'react-redux';
-import {setCameraImage} from '../features/user/userSlice'
+import * as ImagePicker from 'expo-image-picker'
+import { Ionicons } from "@expo/vector-icons"
+import { colors } from "../global/colors"
+import { usePostProfileImageMutation } from '../services/shopService'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCameraImage } from '../features/user/userSlice'
 
 const ImageSelector = ({navigation}) => {
-
+     // Se crea un estado para la imagen.
      const [image, setImage] = useState(null)
-     const [triggerPostImage, result] = usePostProfileImageMutation()
 
+     // Se obtiene la función para confirmar la imagen.
+     const [triggerPostImage] = usePostProfileImageMutation()
+
+     // Se obtiene el id del usuario.
      const {localId} = useSelector(state => state.auth.value)
-     console.log(localId)
-
      const dispatch = useDispatch()
 
+     // Se verifica si se tiene permiso para usar la camara.
      const vefifyCameraPermissions = async () => {
-          // verificar permisos de camara
           const { granted } = await ImagePicker.requestCameraPermissionsAsync()
           return granted
      }
 
      const pickImage = async () => {
-          // seleccionar una imagen
           try {
-          const permissionCamera = await vefifyCameraPermissions()
-          if(permissionCamera){
-          let result = await ImagePicker.launchCameraAsync({
-               mediaTypes: (ImagePicker.MediaType = ['images', 'videos']),
-               allowsEditing: true,
-               aspect: [1, 1],
-               base64: true,
-               quality: 0.2,
-          });
+               // Se verifica si se tiene permiso para usar la camara.
+               const permissionCamera = await vefifyCameraPermissions()
+               if(permissionCamera){
+                    // Se lanza la camara.
+                    let result = await ImagePicker.launchCameraAsync({
+                         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                         allowsEditing: true,
+                         aspect: [1, 1],
+                         base64: true,
+                         quality: 0.2,
+                    });
 
-          console.log(result)
-
-          if(!result.canceled) {
-               const img = `data:image/jpg;base64,${result.assets[0].base64}`
-               setImage(img)
-          }
-          }
+                    // Se verifica si se ha cancelado la imagen.
+                    if(!result.canceled) {
+                         // Se obtiene la imagen en base64.
+                         const img = `data:image/jpg;base64,${result.assets[0].base64}`
+                         setImage(img)
+                    }
+               }
           } catch (error) {
-          console.log(error)
+               console.log(error)
           }
      }
      
+     // Se obtiene la función para confirmar la imagen.
      const confirmImage = () => {
-          // guardar la imagen
-          
           try {
-          dispatch(setCameraImage(image))
-          triggerPostImage({image, localId})
-          navigation.goBack()
+               dispatch(setCameraImage(image))
+               triggerPostImage({
+                    image,
+                    uid: localId
+               })
+               navigation.goBack()
           } catch(err) {
-          console.log(err)
+               console.log("Error al guardar la imagen:", err)
           }
-
      }
-     
      
      return (
-     <SafeAreaView style={styles.container} edges={['top']}>
-          <View style={styles.header}>
-               <Text style={styles.title}>Foto de Perfil</Text>
-               <Text style={styles.subtitle}>Toma una foto para tu perfil</Text>
-          </View>
+          <SafeAreaView style={styles.container} edges={['top']}>
+               <View style={styles.HeaderProducts}>
+                    <Pressable onPress={() => navigation.goBack()} style={styles.goBackButton}>
+                         <Ionicons name="arrow-back" size={24} color="black" />
+                    </Pressable>
+               </View>
 
-          <View style={styles.imageContainer}>
-               {image ? 
-               (
-                    <>
-                    <Image 
-                         source={{uri: image}} 
-                         style={styles.image}
-                         resizeMode='cover'
-                    />
-                    <View style={styles.buttonContainer}>
-                         <TouchableOpacity 
-                              style={[styles.button, styles.retakeButton]}
-                              onPress={pickImage}
-                         >
-                              <Text style={styles.buttonText}>Tomar otra foto</Text>
-                         </TouchableOpacity>
-                         <TouchableOpacity 
-                              style={[styles.button, styles.confirmButton]}
-                              onPress={confirmImage}
-                         >
-                              <Text style={styles.buttonText}>Confirmar foto</Text>
-                         </TouchableOpacity>
+               <View style={styles.content}>
+                    <View style={styles.imageSection}>
+                         {image ? (
+                              <View style={styles.imageWrapper}>
+                                   <Image 
+                                        source={{uri: image}} 
+                                        style={styles.image}
+                                        resizeMode='cover'
+                                   />
+                              </View>
+                         ) : (
+                              <View style={styles.placeholderContainer}>
+                                   <Text style={styles.placeholderEmoji}>📸</Text>
+                                   <Text style={styles.placeholderText}>
+                                        ¡Hora de la foto!
+                                   </Text>
+                                   <Text style={styles.placeholderSubtext}>
+                                        Toca el botón para comenzar
+                                   </Text>
+                              </View>
+                         )}
                     </View>
-                    </>
-               ) 
-               : 
-               (
-                    <>
-                         <View style={styles.noPhotoContainer}>
-                              <Text style={styles.noPhotoText}>No hay foto para mostrar...</Text>
-                         </View>
-                         <TouchableOpacity 
-                              style={[styles.button, styles.takePhotoButton]}
-                              onPress={pickImage}
-                         >
-                              <Text style={styles.buttonText}>Tomar foto</Text>
-                         </TouchableOpacity>
-                    </>
-               )}
-          </View>
-     </SafeAreaView>
+
+                    <View style={styles.buttonSection}>
+                         {image ? (
+                              <>
+                                   <TouchableOpacity 
+                                        style={[styles.button, styles.secondaryButton]}
+                                        onPress={pickImage}
+                                   >
+                                        <Text style={styles.secondaryButtonText}>
+                                             📸 Nueva foto
+                                        </Text>
+                                   </TouchableOpacity>
+                                   <TouchableOpacity 
+                                        style={[styles.button, styles.primaryButton]}
+                                        onPress={confirmImage}
+                                   >
+                                        <Text style={styles.primaryButtonText}>
+                                             ✨ ¡Me gusta!
+                                        </Text>
+                                   </TouchableOpacity>
+                              </>
+                         ) : (
+                              <TouchableOpacity 
+                                   style={[styles.button, styles.primaryButton]}
+                                   onPress={pickImage}
+                              >
+                                   <Text style={styles.primaryButtonText}>
+                                        📸 Tomar foto
+                                   </Text>
+                              </TouchableOpacity>
+                         )}
+                    </View>
+               </View>
+          </SafeAreaView>
      )
 }
 
-export default ImageSelector
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-  header: {
-    backgroundColor: colors.primary,
-    padding: 20,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.white,
-    marginBottom: 5,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: colors.white,
-    opacity: 0.8,
-  },
-  imageContainer: {
-    flex: 1,
-    alignItems: "center",
-    padding: 20,
-    gap: 20,
-  },
-  image: {
-    width: 250,
-    height: 250,
-    borderRadius: 15,
-    borderWidth: 3,
-    borderColor: colors.primary,
-  },
-  noPhotoContainer: {
-    width: 250,
-    height: 250,
-    borderWidth: 3,
-    borderColor: colors.primary,
-    borderRadius: 15,
-    padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.lightGray,
-  },
-  noPhotoText: {
-    fontSize: 16,
-    color: colors.lightBlack,
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    width: '100%',
-    gap: 15,
-  },
-  button: {
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    width: '100%',
-  },
-  takePhotoButton: {
-    backgroundColor: colors.primary,
-  },
-  retakeButton: {
-    backgroundColor: colors.lightBlack,
-  },
-  confirmButton: {
-    backgroundColor: colors.primary,
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-});
+     container: {
+          flex: 1,
+          backgroundColor: colors.white,
+     },
+     HeaderProducts:{
+          backgroundColor: colors.orangeLogo,
+          flexDirection: 'row',
+          alignItems:'center',
+          padding: 20,
+          height: 70,
+     },
+     goBackButton:{
+          marginRight: 25,
+     },
+     title:{
+          fontSize: 30,
+          fontWeight: 'bold'
+     },
+     backButton: {
+          width: 40,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+     },
+     backText: {
+          fontSize: 24,
+          color: colors.white,
+     },
+     content: {
+          flex: 1,
+          padding: 20,
+          justifyContent: 'space-between',
+          backgroundColor: colors.lightGray + '10',
+     },
+     imageSection: {
+          alignItems: 'center',
+          marginTop: 30,
+          backgroundColor: colors.white,
+          padding: 20,
+          borderRadius: 20,
+          marginHorizontal: 10,
+     },
+     imageWrapper: {
+          padding: 3,
+          backgroundColor: colors.orangeLogo,
+          borderRadius: 25,
+     },
+     image: {
+          width: 300,
+          height: 300,
+          borderRadius: 22,
+          borderWidth: 3,
+          borderColor: colors.white,
+     },
+     placeholderContainer: {
+          width: 300,
+          height: 300,
+          borderRadius: 25,
+          backgroundColor: colors.orangeLogo + '10',
+          borderWidth: 2,
+          borderStyle: 'dashed',
+          borderColor: colors.orangeLogo,
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 20,
+     },
+     placeholderEmoji: {
+          fontSize: 50,
+          marginBottom: 15,
+     },
+     placeholderText: {
+          fontSize: 24,
+          fontWeight: '600',
+          color: colors.primary,
+          textAlign: 'center',
+          marginBottom: 8,
+     },
+     placeholderSubtext: {
+          fontSize: 16,
+          color: colors.lightBlack,
+          textAlign: 'center',
+     },
+     buttonSection: {
+          gap: 12,
+          marginBottom: 20,
+          paddingHorizontal: 10,
+     },
+     button: {
+          padding: 18,
+          borderRadius: 15,
+          alignItems: 'center',
+     },
+     primaryButton: {
+          backgroundColor: colors.orangeLogo,
+          borderWidth: 0,
+     },
+     secondaryButton: {
+          backgroundColor: colors.orangeLogo + '15',
+          borderWidth: 1,
+          borderColor: colors.orangeLogo,
+     },
+     primaryButtonText: {
+          color: colors.white,
+          fontSize: 18,
+          fontWeight: '600',
+     },
+     secondaryButtonText: {
+          color: colors.orangeLogo,
+          fontSize: 18,
+          fontWeight: '600',
+     },
+})
+
+export default ImageSelector

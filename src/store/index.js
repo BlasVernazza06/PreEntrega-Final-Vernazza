@@ -8,6 +8,8 @@ import {authApi} from "../services/authService"
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 
+// Se configuran los reducers y middlewares del store de la aplicación
+
 const store = configureStore({
   reducer: {
     counter: counterReducer,

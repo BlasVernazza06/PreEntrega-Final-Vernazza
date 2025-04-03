@@ -2,23 +2,23 @@ import React from "react";
 import { View, StyleSheet, SafeAreaView}  from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Likes from "./../screens/Likes"
+import Forum from "./../screens/Forum"
 
 const Stack = createNativeStackNavigator();
 
-const HomeStackNavigator = () => {
+const ForumStackNavigator = () => {
   return (
       <Stack.Navigator
-      initialRouteName="Likes"
+      initialRouteName="Forum"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Likes" component={Likes} />
+      <Stack.Screen name="Forum" component={Forum} />
     </Stack.Navigator>
   );
 };
 
-export default HomeStackNavigator;
+export default ForumStackNavigator;
 
 const styles = StyleSheet.create({});

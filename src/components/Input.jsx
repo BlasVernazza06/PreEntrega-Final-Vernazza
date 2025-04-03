@@ -2,9 +2,11 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "../global/colors";
 
-const InputForm = ({ label, onChange, error = "", isSecure = false, placeholderText }) => {
+const InputForm = ({ label, onChange, error = "", isSecure = false, placeholderText, style }) => {
+  // Se crea un estado para el texto.
   const [input, setInput] = useState("");
   
+  // Se obtiene la función para cambiar el texto.
   const onChangeText = (text) => {
     setInput(text);
     onChange(text);
@@ -14,13 +16,12 @@ const InputForm = ({ label, onChange, error = "", isSecure = false, placeholderT
     <View style={styles.inputContainer}>
       <Text style={styles.subtitle}>{label}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, style]}
         value={input}
         placeholder={placeholderText}
         placeholderTextColor="#999"
         onChangeText={onChangeText}
         secureTextEntry={isSecure}
-        
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
@@ -33,7 +34,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 15,
   },
   subtitle: {
     width: "90%",
